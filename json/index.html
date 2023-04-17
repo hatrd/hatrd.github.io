@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JSON Formatter</title>
+    <style>
+      /* 格式化JSON的样式 */
+      .json-formatted {
+        font-family:  Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        white-space: pre;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+		white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="json-input" cols="50" rows="10"></textarea>
+    <button id="format-btn">格式化</button>
+    <div id="json-output"></div>
+    
+    <script>
+      const formatJson = (json) => {
+        try {
+          return JSON.stringify(JSON.parse(json), null, 2);
+        } catch (error) {
+          return 'Invalid JSON';
+        }
+      };
+      
+      const jsonInput = document.getElementById('json-input');
+      const formatBtn = document.getElementById('format-btn');
+      const jsonOutput = document.getElementById('json-output');
+      
+      formatBtn.addEventListener('click', () => {
+        const json = jsonInput.value;
+        const formattedJson = formatJson(json);
+        jsonOutput.innerHTML = `<pre class="json-formatted">${formattedJson}</pre>`;
+      });
+    </script>
+  </body>
+</html>
