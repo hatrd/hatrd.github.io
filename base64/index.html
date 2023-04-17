@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Base64 编码/解码工具</title>
+  </head>
+  <body>
+    <h1>Base64 编码/解码工具</h1>
+    <div>
+      <label for="input-text">输入要编码/解码的文本：</label>
+      <br>
+      <textarea id="input-text" rows="5" cols="80"></textarea>
+    </div>
+    <br>
+    <div>
+      <label for="output-text">编码/解码结果：</label>
+      <br>
+      <textarea id="output-text" rows="5" cols="80" readonly></textarea>
+    </div>
+    <br>
+    <div>
+      <label for="symbol-table">自定义符号表（选填）：</label>
+      <br>
+      <input type="text" id="symbol-table" size="80">
+    </div>
+    <br>
+    <div>
+      <button id="encode-btn">Base64 编码</button>
+      <button id="decode-btn">Base64 解码</button>
+      <button id="clear-btn">清空</button>
+    </div>
+
+    <script>
+      // 自定义符号表，默认为 Base64 字符表
+      const SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+      // 编码函数
+      function base64encode(str, symbols = SYMBOLS) {
+        // 将字符串转换成 UTF-8 编码的字节数组
+        const utf8Bytes = new TextEncoder().encode(str);
+        let binaryStr = '';
+        // 将字节数组转换成二进制字符串
+        utf8Bytes.forEach(byte => {
+          binaryStr += byte.toString(2).padStart(8, '0');
+        });
+        // 将二进制字符串按照每 6 位分组
+        const groups = binaryStr.match(/(\d{6})/g);
+        // 如果最后一组不足 6 位，则在末尾添加 0
+        if (groups[groups.length - 1].length < 6) {
+          groups[groups.length - 1] += '0'.repeat(6 - groups[groups.length - 1].length);
+        }
+        // 将每组的值转换成对应符号表中的字符
+        const encodedStr = groups.map(group => symbols[parseInt(group, 2)]).join('');
+        return encodedStr;
+      }
+
+      // 解码函数
+      function base64decode(encodedStr, symbols = SYMBOLS) {
+        let binaryStr = '';
+        // 将每个符号在符号表中的位置转换成二进制字符串，并拼接成一个二进制字符串
+        encodedStr.split('').forEach(symbol => {
+          const index = symbols.indexOf(symbol);
+          if (index !== -1) {
+            binaryStr += index.toString(2).padStart(6, '0');
+          }
+        });
+        // 将二进制字符串按照每 8 位分组
+        const groups = binaryStr.match(/(\d{8})/g);
+        // 将每组的值转换成对应的 UTF-8 编码的字节数组
+        const utf8Bytes = new Uint8Array(groups.map(group => parseInt(group, 2)));
+    // 将字节数组转换成字符串
+    const decodedStr = new TextDecoder().decode(utf8Bytes);
+    return decodedStr;
+  }
+
+  // 获取输入框和输出框的元素
+  const inputBox = document.getElementById('input-text');
+  const outputBox = document.getElementById('output-text');
+
+  // 获取编码按钮和解码按钮的元素
+  const encodeBtn = document.getElementById('encode-btn');
+  const decodeBtn = document.getElementById('decode-btn');
+
+  // 获取清空按钮的元素
+  const clearBtn = document.getElementById('clear-btn');
+
+  // 获取自定义符号表的元素
+  const symbolTableInput = document.getElementById('symbol-table');
+
+  // 添加编码按钮的点击事件处理函数
+  encodeBtn.addEventListener('click', () => {
+    // 获取输入框中的文本
+    const inputText = inputBox.value.trim();
+    // 获取自定义符号表的值，如果有的话
+    const symbolTable = symbolTableInput.value.trim() || SYMBOLS;
+    // 对文本进行 Base64 编码，并将结果显示在输出框中
+    outputBox.value = base64encode(inputText, symbolTable);
+  });
+
+  // 添加解码按钮的点击事件处理函数
+  decodeBtn.addEventListener('click', () => {
+    // 获取输入框中的文本
+    const inputText = inputBox.value.trim();
+    // 获取自定义符号表的值，如果有的话
+    const symbolTable = symbolTableInput.value.trim() || SYMBOLS;
+    // 对文本进行 Base64 解码，并将结果显示在输出框中
+    outputBox.value = base64decode(inputText, symbolTable);
+  });
+
+  // 添加清空按钮的点击事件处理函数
+  clearBtn.addEventListener('click', () => {
+    inputBox.value = '';
+    outputBox.value = '';
+    symbolTableInput.value = '';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>获取用户信息</title>
+</head>
+<body>
+    <h1>用户信息</h1>
+    <ul id="info"></ul>
+
+    <script>
+        function getIP(json) {
+            document.querySelector("#info").innerHTML += "<li>IP: " + json.ip + "</li>";
+            fetch('https://ipapi.co/' + json.ip + '/json/')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    document.querySelector("#info").innerHTML += "<li>物理地址: " + data.city + ", " + data.region + ", " + data.country_name + "</li>";
+                });
+        }
+        
+        var lang = navigator.language || navigator.userLanguage;
+        document.querySelector("#info").innerHTML += "<li>语言: " + lang + "</li>";
+
+        var browser = navigator.userAgent;
+        document.querySelector("#info").innerHTML += "<li>UA: " + browser + "</li>";
+
+        var width = screen.width;
+        var height = screen.height;
+        document.querySelector("#info").innerHTML += "<li>分辨率: " + width + "x" + height + "</li>";
+
+        var platform = navigator.platform;
+        document.querySelector("#info").innerHTML += "<li>系统类别: " + platform + "</li>";
+
+        var cookieEnabled = navigator.cookieEnabled;
+        document.querySelector("#info").innerHTML += "<li>启用 Cookie: " + cookieEnabled + "</li>";
+
+        var appName = navigator.appName;
+        document.querySelector("#info").innerHTML += "<li>浏览器名称: " + appName + "</li>";
+
+        var geolocation = navigator.geolocation;
+        document.querySelector("#info").innerHTML += "<li>物理地址: " + geolocation + "</li>";
+
+        var onLine = navigator.onLine;
+        document.querySelector("#info").innerHTML += "<li>在线: " + onLine + "</li>";
+
+        var product = navigator.product;
+        document.querySelector("#info").innerHTML += "<li>浏览器引擎: " + product + "</li>";
+
+    </script>
+
+    <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+</body>
+</html>
