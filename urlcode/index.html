@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL编解码</title>
+  <style>
+    textarea {
+      width: 400px;
+      height: 200px;
+      font-size: 16px;
+    }
+    
+    button {
+      font-size: 16px;
+    }
+  </style>
+  <script>
+    function encodeURL() {
+      var Cinput = document.getElementById("Cinput").value;
+      var Coutput = encodeURIComponent(Cinput);
+      document.getElementById("Coutput").value = Coutput;
+    }
+    
+    function decodeURL() {
+      var Cinput = document.getElementById("Cinput").value;
+      var Coutput = decodeURIComponent(Cinput);
+      document.getElementById("Coutput").value = Coutput;
+    }
+  </script>
+</head>
+<body>
+  <h1>URL编解码</h1>
+  <label for="Cinput">输入:</label>
+  <br>
+  <textarea id="Cinput" placeholder="输入"></textarea>
+  <br>
+  <label for="Coutput">输出:</label>
+  <br>
+  <textarea id="Coutput" placeholder="输出" readonly></textarea>
+  <br>
+  <button onclick="encodeURL()">编码</button>
+  <button onclick="decodeURL()">解码</button>
+
+</body>
+</html>
