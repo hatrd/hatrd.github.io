@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hash Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script>
+        function calculateHash() {
+            var plaintext = document.getElementById("plaintext").value;
+            
+            // 计算 MD5 值
+            var md5Hash = CryptoJS.MD5(plaintext).toString();
+            document.getElementById("md5Result").innerHTML = "MD5: " + md5Hash;
+            
+            // 计算 SHA1 值
+            var sha1Hash = CryptoJS.SHA1(plaintext).toString();
+            document.getElementById("sha1Result").innerHTML = "SHA1: " + sha1Hash;
+            
+            // 计算 SHA256 值
+            var sha256Hash = CryptoJS.SHA256(plaintext).toString();
+            document.getElementById("sha256Result").innerHTML = "SHA256: " + sha256Hash;
+            
+            // 计算 SHA512 值
+            var sha512Hash = CryptoJS.SHA512(plaintext).toString();
+            document.getElementById("sha512Result").innerHTML = "SHA512: " + sha512Hash;
+            
+            // 计算 SHA3 值
+            var sha3Hash = CryptoJS.SHA3(plaintext).toString();
+            document.getElementById("sha3Result").innerHTML = "SHA3: " + sha3Hash;
+        }
+    </script>
+</head>
+<body>
+    <h1>Hash Calculator</h1>
+    <div>
+        <label for="plaintext">Plaintext:</label>
+        <button onclick="calculateHash()">Calculate</button>
+        <br>
+        <textarea type="text" id="plaintext" ></textarea>
+    </div>
+    <div id="md5Result"></div>
+    <div id="sha1Result"></div>
+    <div id="sha256Result"></div>
+    <div id="sha512Result"></div>
+    <div id="sha3Result"></div>
+</body>
+</html>
