@@ -44,11 +44,10 @@
           binaryStr += byte.toString(2).padStart(8, '0');
         });
         // 将二进制字符串按照每 6 位分组
-        const groups = binaryStr.match(/(\d{6})/g);
-        // 如果最后一组不足 6 位，则在末尾添加 0
-        if (groups[groups.length - 1].length < 6) {
-          groups[groups.length - 1] += '0'.repeat(6 - groups[groups.length - 1].length);
+        if (binaryStr.length % 6 !== 0) {
+          binaryStr += '0'.repeat(6 - binaryStr.length % 6);
         }
+        const groups = binaryStr.match(/(\d{6})/g);
         // 将每组的值转换成对应符号表中的字符
         const encodedStr = groups.map(group => symbols[parseInt(group, 2)]).join('');
         return encodedStr;
