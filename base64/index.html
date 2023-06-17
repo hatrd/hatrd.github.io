@@ -59,7 +59,8 @@
         // 将每个符号在符号表中的位置转换成二进制字符串，并拼接成一个二进制字符串
         encodedStr.split('').forEach(symbol => {
           const index = symbols.indexOf(symbol);
-          if (index !== -1) {
+          console.log(index)
+          if (index !== 64) {
             binaryStr += index.toString(2).padStart(6, '0');
           }
         });
