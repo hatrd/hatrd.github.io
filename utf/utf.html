@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>UTF 编解码</title>
+</head>
+<body>
+  <h1>UTF 编解码</h1>
+  
+  <h2>编码</h2>
+  <textarea id="input" rows="4" cols="50"></textarea><br>
+  <button onclick="encode()">编码</button><br>
+  <textarea id="output" rows="4" cols="50" readonly></textarea>
+  
+  <h2>解码</h2>
+  <textarea id="encodedInput" rows="4" cols="50"></textarea><br>
+  <button onclick="decode()">解码</button><br>
+  <textarea id="decodedOutput" rows="4" cols="50" readonly></textarea>
+  
+  <script>
+    // 编码函数
+    function encode() {
+      var input = document.getElementById("input").value;
+      var output = "";
+      for (var i = 0; i < input.length; i++) {
+        var codePoint = input.charCodeAt(i);
+        var encoded = "\\u" + codePoint.toString(16).padStart(4, '0');
+        output += encoded;
+      }
+      document.getElementById("output").value = output;
+    }
+    
+    // 解码函数
+    function decode() {
+      var input = document.getElementById("encodedInput").value;
+      var output = "";
+      var chunks = input.split("\\u");
+      for (var i = 1; i < chunks.length; i++) {
+        var codePoint = parseInt(chunks[i], 16);
+        var decoded = String.fromCharCode(codePoint);
+        output += decoded;
+      }
+      document.getElementById("decodedOutput").value = output;
+    }
+  </script>
+</body>
+</html>
