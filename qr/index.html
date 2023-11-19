@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenshot and QR Code Scanner</title>
+  <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+</head>
+<body>
+
+<!-- Button for taking screenshot and scanning QR Code -->
+<button id="screenshot-button">截图并扫描二维码</button>
+
+<!-- Container of the screenshot.-->
+<div id="output-container">
+  <img id="screenshot-image" style="max-height: 300px;">
+  <div id="qr-result"></div>
+</div>
+
+<!-- Cropper modal -->
+<div id="cropper-modal" style="display: none;">
+  <div>
+    <button id="crop-button">点击应用裁剪</button>
+    <img id="cropper-image" style="max-height: 1000px;">
+  </div>
+</div>
+
+<!-- Hidden textarea for clipboard copy -->
+<textarea id="clipboard-content" style="position: absolute; left: -9999px;"></textarea>
+
+<script src="https://cdn.rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
+<script src="https://unpkg.com/cropperjs"></script>
+
+<script>
+  async function takeScreenshotAndScanQRCode() {
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia({ video: { width: 10000 } });
+      const track = stream.getVideoTracks()[0];
+      const capture = new ImageCapture(track);
+      const frame = await capture.grabFrame();
+
+      const canvas = document.createElement("canvas");
+      canvas.width = frame.width;
+      canvas.height = frame.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(frame, 0, 0);
+
+      canvas.toBlob(async (blob) => {
+        track.stop();
+        const imgUrl = URL.createObjectURL(blob);
+
+        // Display the screenshot
+        const imgElement = document.getElementById("screenshot-image");
+        imgElement.src = imgUrl;
+
+        // Decode QR Code from the screenshot
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        // Display the QR Code result
+        const qrResultElement = document.getElementById("qr-result");
+
+        if (code) {
+          // Copy QR Code content to clipboard
+          const clipboardContent = document.getElementById("clipboard-content");
+          clipboardContent.value = code.data;
+          clipboardContent.select();
+          document.execCommand('copy');
+
+          qrResultElement.innerText = `扫描成功，结果已复制: ${code.data}`;
+        } else {
+          qrResultElement.innerText = "扫描失败，请在下方裁剪图片以缩小扫描范围：";
+
+          // Allow user to crop the image
+          const cropperModal = document.getElementById("cropper-modal");
+          const cropperImage = document.getElementById("cropper-image");
+          const cropButton = document.getElementById("crop-button");
+
+          cropperImage.src = imgUrl;
+          cropperModal.style.display = "block";
+
+          const cropper = new Cropper(cropperImage, {
+            aspectRatio: 1, // qr code 1:1
+          });
+
+          cropButton.addEventListener("click", async () => {
+            const croppedCanvas = cropper.getCroppedCanvas();
+            const croppedBlob = await new Promise(resolve => croppedCanvas.toBlob(resolve));
+            const croppedImgUrl = URL.createObjectURL(croppedBlob);
+
+            // Display the cropped image
+            imgElement.src = croppedImgUrl;
+
+            // Decode QR Code from the cropped image
+            const croppedImageData = croppedCanvas.getContext("2d").getImageData(0, 0, croppedCanvas.width, croppedCanvas.height);
+            const croppedCode = jsQR(croppedImageData.data, croppedImageData.width, croppedImageData.height);
+
+            // Display the QR Code result from the cropped image
+            if (croppedCode) {
+                // Copy QR Code content to clipboard
+                const clipboardContent = document.getElementById("clipboard-content");
+                clipboardContent.value = croppedCode.data;
+                clipboardContent.select();
+                document.execCommand('copy');
+
+                qrResultElement.innerText = `扫描成功，结果已复制: ${croppedCode.data}`;
+            }
+            else {
+                qrResultElement.innerText = "扫描失败，请重新截图。（注意，jsQR库对变形二维码识别成功率不高。）";
+            }
+
+            // Hide the cropper modal
+            cropperModal.style.display = "none";
+          });
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  // Trigger the function when the button is clicked
+  const button = document.getElementById("screenshot-button");
+  button.addEventListener("click", takeScreenshotAndScanQRCode);
+</script>
+
+</body>
+</html>
