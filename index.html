@@ -1,15 +1,85 @@
-<h4><a href=base64/index.html>base64</a></h4>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>单 HTML 文件内实现的工具</title>
+  <style>
+    body {
+      margin: 0 auto;
+    }
+    h1 {
+        margin: 0;
+        font-size: medium;
+    }
+    p {
+        margin: 0;
+    }
+    .tool-box {
+      background-color: #f0f0f0;
+      border-radius: 2vw;
+      margin-top: 1vw;
+      margin-bottom: 1vw;
+      margin-left: 20%;
+      margin-right: 20%;
+      padding-top: 1vw;
+      padding-bottom: 1vw;
 
-<h4><a href=hash/index.html>hash</a></h4>
+      cursor: pointer;
+      text-align: center;
+      align-items: center;
+      transition: transform 0.5s ease, background-color 0.5s ease;
+    }
+    .tool-box:hover {
+      background: linear-gradient(45deg, #66ccff, #39C5BB );
+      color: #fff;
+      transform: rotate(3deg) scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="tool-box" onclick="window.location.href='base64/index.html'">
+    <h1>base64</h1>
+    <p>Base64 编码工具。</p>
+  </div>
 
-<h4><a href=qr/index.html>qr</a></h4>
+  <div class="tool-box" onclick="window.location.href='hash/index.html'">
+    <h1>hash</h1>
+    <p>哈希工具。</p>
+  </div>
 
-<h4><a href=json/index.html>json</a></h4>
+  <div class="tool-box" onclick="window.location.href='qr/index.html'">
+    <h1>qr</h1>
+    <p>二维码扫码工具。</p>
+  </div>
 
-<h4><a href=urlcode/index.html>urlcode</a></h4>
+  <div class="tool-box" onclick="window.location.href='json/index.html'">
+    <h1>json</h1>
+    <p>JSON 格式化工具。</p>
+  </div>
 
-<h4><a href=utf/index.html>utf</a></h4>
+  <div class="tool-box" onclick="window.location.href='pangu/index.html'">
+    <h1>pangu</h1>
+    <p>半角和全角中间加空格工具。</p>
+  </div>
 
-<h4><a href=info/index.html>info</a></h4>
+  <div class="tool-box" onclick="window.location.href='urlcode/index.html'">
+    <h1>urlcode</h1>
+    <p>URL 编码解码工具。</p>
+  </div>
 
-<h4><a href=sydney/index.html>sydney</a></h4>
+  <div class="tool-box" onclick="window.location.href='utf/index.html'">
+    <h1>utf</h1>
+    <p>UTF 编码解码工具。</p>
+  </div>
+
+  <div class="tool-box" onclick="window.location.href='info/index.html'">
+    <h1>info</h1>
+    <p>系统信息查看工具。</p>
+  </div>
+
+  <div class="tool-box" onclick="window.location.href='sydney/index.html'">
+    <h1>sydney</h1>
+    <p></p>
+  </div>
+</body>
+</html>

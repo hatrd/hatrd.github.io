@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>全半角字符添加空格分割</title>
+    <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js"></script>
+  </head>
+  <body>
+    <textarea id="input" cols="50" rows="10"></textarea>
+    <button id="format-btn">格式化并复制</button>
+    <br>
+    <textarea id="output" cols="50" rows="10"></textarea>
+    
+    <script>
+      const format = (str) => {
+        try {
+          return pangu.spacing(str)
+        } catch (error) {
+          return 'Invalid';
+        }
+      };
+      
+      const Input = document.getElementById('input');
+      const formatBtn = document.getElementById('format-btn');
+      const Output = document.getElementById('output');
+      
+      formatBtn.addEventListener('click', () => {
+        const str = Input.value;
+        const formatted = format(str);
+        Output.innerHTML = formatted;
+        Output.select();
+        document.execCommand(copy);
+      });
+    </script>
+  </body>
+</html>
