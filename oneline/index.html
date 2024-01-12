@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Newlines from Clipboard</title>
+    <!-- TODO: 自定义正则表达式和替换结果 -->
+</head>
+<body>
+
+    <textarea id="inputTextarea" placeholder="在这里粘贴文本"></textarea>
+    <button onclick="pasteAndRemoveNewlines()">去除剪贴板的换行符</button>
+    <button onclick="removeNewlines()">去除文本框内换行符并复制</button>
+
+    <script>
+        function removeNewlines() {
+            // 获取文本框的内容
+            var inputTextarea = document.getElementById('inputTextarea');
+            var content = inputTextarea.value;
+
+            // 去除换行符
+            var contentWithoutNewlines = content.replace(/\n/g, '');
+
+            // 将处理后的内容放回文本框
+            inputTextarea.value = contentWithoutNewlines;
+
+            // 复制到剪切板
+            inputTextarea.select();
+            document.execCommand('copy');
+        }
+
+        function pasteAndRemoveNewlines() {
+            try {
+                // 从剪切板读取文本
+                navigator.clipboard.readText().then((clipText) => 
+                    (document.getElementById("inputTextarea").value = clipText,
+                    removeNewlines()                   )
+                    
+                    );
+            } catch (err) {
+                console.error('无法从剪切板读取文本：', err);
+            }
+        }
+    </script>
+</body>
+</html>
