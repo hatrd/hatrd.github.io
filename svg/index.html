@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实时SVG预览</title>
+    <style>
+        #svgPreview {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>输入SVG代码（或者其他任何 html 支持文本）</h2>
+    <textarea id="svgInput" rows="10" cols="50"></textarea>
+
+    <h3>SVG预览</h3>
+    <div id="svgPreview"></div>
+
+    <script>
+        document.getElementById('svgInput').addEventListener('input', function() {
+            const svgCode = this.value;
+            document.getElementById('svgPreview').innerHTML = svgCode;
+        });
+    </script>
+</body>
+</html>
