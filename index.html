@@ -6,6 +6,11 @@
   <style>
     body {
       margin: 0 auto;
+      align-items: center;
+      justify-content: space-around;
+      display: flex;
+      flex-wrap: wrap;
+      
     }
     h1 {
         margin: 0;
@@ -19,15 +24,17 @@
       border-radius: 2vw;
       margin-top: 1vw;
       margin-bottom: 1vw;
-      margin-left: 20%;
-      margin-right: 20%;
-      padding-top: 1vw;
-      padding-bottom: 1vw;
-
+      margin-left: 1vw;
+      margin-right: 1vw;
+      width: 200px;
+      height: 100px;
       cursor: pointer;
       text-align: center;
       align-items: center;
       transition: transform 0.5s ease, background-color 0.5s ease;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
     }
     .tool-box:hover {
       background: linear-gradient(45deg, #66ccff, #39C5BB );
@@ -64,6 +71,10 @@
   <div class="tool-box" onclick="window.location.href='oneline/index.html'">
     <h1>oneline</h1>
     <p>去除换行符</p>
+  </div>
+  <div class="tool-box" onclick="window.location.href='time/index.html'">
+    <h1>time</h1>
+    <p>时间戳转换</p>
   </div>
   <div class="tool-box" onclick="window.location.href='svg/index.html'">
     <h1>svg</h1>

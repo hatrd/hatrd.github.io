@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间戳转换</title>
+</head>
+<body>
+
+<h2>输入 UNIX 时间戳:</h2>
+
+<input type="text" id="timestamp" placeholder="Enter timestamp here..">
+
+<button onclick="convertTimestamp()">Convert to Date</button>
+
+<p id="resultTimestamp"></p>
+
+<h2>输入日期和时间 (格式: yyyy-mm-dd hh:mm:ss):</h2>
+
+<input type="text" id="datetime" placeholder="Enter date and time here..">
+
+<button onclick="convertDatetime()">Convert to Timestamp</button>
+
+<p id="resultDatetime"></p>
+
+<script>
+    function convertTimestamp() {
+        // Get the value from the input field
+        var timestamp = document.getElementById('timestamp').value;
+
+        // Convert the UNIX timestamp to a date object
+        var date = new Date(timestamp * 1000);
+
+        // Format the date and time
+        var year = date.getFullYear();
+        var month = '0' + (date.getMonth() + 1);
+        var day = '0' + date.getDate();
+        var hours = '0' + date.getHours();
+        var minutes = '0' + date.getMinutes();
+        var seconds = '0' + date.getSeconds();
+
+        // Display the result
+        document.getElementById('resultTimestamp').innerHTML = '日期和时间: ' + year + '-' + month.substr(-2) + '-' + day.substr(-2) + ' ' + hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    }
+
+    function convertDatetime() {
+        // Get the value from the input field
+        var datetime = document.getElementById('datetime').value;
+
+        // Convert the datetime string to a date object
+        var date = new Date(datetime);
+
+        // Convert the date object to a UNIX timestamp
+        var timestamp = Math.floor(date.getTime() / 1000);
+
+        // Display the result
+        document.getElementById('resultDatetime').innerHTML = 'UNIX 时间戳: ' + timestamp;
+    }
+</script>
+
+</body>
+</html>
