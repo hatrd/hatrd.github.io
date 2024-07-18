@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Generator</title>
+
+</head>
+<body>
+    <h1>Random Generator</h1>
+
+    <div>
+        <p id="result">result</p>
+        <button onclick="generateRandomString()">Generate&Copy</button>
+        <button onclick="setCharacterRangeDigits()">0-9</button>
+        <button onclick="setCharacterRangeLetters()">A-Za-z</button>
+        <button onclick="setCharacterRangeDigitsAndLetters()()">A-Za-z0-9</button>
+        <button onclick="setCharacterRangeAll()">+Special Characters</button>
+        <br>
+        <textarea id="characterRange" rows="4" cols="50">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</textarea>
+        <br>
+        <input type="text" id="characterLength" placeholder="characterLength default 15">
+    </div>
+
+    <script>
+        function generateRandomString() {
+            const length = document.getElementById("characterLength").value || 15;
+            const characterRange = document.getElementById("characterRange").value || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            const charactersLength = characterRange.length;
+
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charactersLength);
+                result += characterRange[randomIndex];
+            }
+            navigator.clipboard.writeText(result);
+            document.getElementById("result").textContent = result;
+        }
+        function setCharacterRangeDigits() {
+            document.getElementById("characterRange").value = '0123456789';
+        }
+
+        function setCharacterRangeLetters() {
+            document.getElementById("characterRange").value = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }
+        function setCharacterRangeDigitsAndLetters() {
+            document.getElementById("characterRange").value = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        }
+        function setCharacterRangeAll() {
+            document.getElementById("characterRange").value = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-={}[]|:;"<>,.?/~`\'';
+        }
+        window.onload = function() {
+            generateRandomString();
+        };
+    </script>
+</body>
+</html>
