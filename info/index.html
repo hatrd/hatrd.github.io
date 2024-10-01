@@ -9,15 +9,28 @@
     <ul id="info"></ul>
 
     <script>
-        function getIP(json) {
-            document.querySelector("#info").innerHTML += "<li>IP: " + json.ip + "</li>";
+        function getIPv4(json) {
+            var ipInfo = "<li>IPv4: " + json.ip;
             fetch('https://ipapi.co/' + json.ip + '/json/')
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(data) {
-                    document.querySelector("#info").innerHTML += "<li>物理地址: " + data.city + ", " + data.region + ", " + data.country_name + "</li>";
-                });
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                ipInfo += "<br>物理地址: " + data.city + ", " + data.region + ", " + data.country_name + "</li>";
+                document.querySelector("#info").innerHTML += ipInfo;
+            });
+        }
+        
+        function getIPv6(json) {
+            var ipv6Info = "<li>IPv6: " + json.ip;
+            fetch('https://ipapi.co/' + json.ip + '/json/')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                ipv6Info += "<br>IPv6 物理地址: " + data.city + ", " + data.region + ", " + data.country_name + "</li>";
+                document.querySelector("#info").innerHTML += ipv6Info;
+            });
         }
         
         var lang = navigator.language || navigator.userLanguage;
@@ -50,6 +63,7 @@
 
     </script>
 
-    <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+    <script src="https://api.ipify.org?format=jsonp&callback=getIPv4"></script>
+    <script src="https://api6.ipify.org?format=jsonp&callback=getIPv6"></script>
 </body>
 </html>
