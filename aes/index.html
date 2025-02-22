@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AES加解密</title>
+  <style>
+    textarea {
+      width: 400px;
+      height: 200px;
+      font-size: 16px;
+    }
+    
+    button {
+      font-size: 16px;
+    }
+
+    input {
+      width: 400px;
+      font-size: 16px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script>
+    function encrypt() {
+      var text = document.getElementById("input").value;
+      var key = document.getElementById("key").value;
+      if(!text || !key) {
+        alert("请输入内容和密钥");
+        return;
+      }
+      try {
+        var encrypted = CryptoJS.AES.encrypt(text, key).toString();
+        document.getElementById("output").value = encrypted;
+      } catch(e) {
+        alert("加密失败: " + e.message);
+      }
+    }
+    
+    function decrypt() {
+      var text = document.getElementById("input").value;
+      var key = document.getElementById("key").value;
+      if(!text || !key) {
+        alert("请输入内容和密钥");
+        return;
+      }
+      try {
+        var decrypted = CryptoJS.AES.decrypt(text, key).toString(CryptoJS.enc.Utf8);
+        document.getElementById("output").value = decrypted;
+      } catch(e) {
+        alert("解密失败: " + e.message);
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>AES加解密</h1>
+  <label for="key">密钥:</label>
+  <br>
+  <input type="text" id="key" placeholder="请输入密钥">
+  <br><br>
+  <label for="input">输入:</label>
+  <br>
+  <textarea id="input" placeholder="输入要加密/解密的内容"></textarea>
+  <br>
+  <label for="output">输出:</label>
+  <br>
+  <textarea id="output" placeholder="输出" readonly></textarea>
+  <br>
+  <button onclick="encrypt()">加密</button>
+  <button onclick="decrypt()">解密</button>
+</body>
+</html>
